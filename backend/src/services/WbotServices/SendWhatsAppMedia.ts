@@ -175,11 +175,6 @@ const SendWhatsAppMedia = async ({
     );
 
     await ticket.update({ lastMessage: media.filename });
-
-    if(sentMessage.message?.documentMessage) {
-      verifyMediaMessage(sentMessage, ticket, ticket.contact, ticket.companyId)
-    }
-
     return sentMessage;
   } catch (err) {
     Sentry.captureException(err);

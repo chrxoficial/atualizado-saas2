@@ -25,6 +25,7 @@ const CreateMessageService = async ({
   companyId
 }: Request): Promise<Message> => {
   try {
+
     await Message.upsert({ ...messageData, companyId });
 
     const message = await Message.findOne({

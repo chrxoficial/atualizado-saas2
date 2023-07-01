@@ -6,6 +6,7 @@ import Message from "../../models/Message";
 import Ticket from "../../models/Ticket";
 
 import formatBody from "../../helpers/Mustache";
+import { verifyMessage } from "./wbotMessageListener";
 
 interface Request {
   body: string;
@@ -47,13 +48,17 @@ const SendWhatsAppMessage = async ({
 
   try {
     const sentMessage = await wbot.sendMessage(number,{
-        text: formatBody(body, ticket.contact)
+        text: formatBody(`\u200e${body}`, ticket.contact)
       },
       {
         ...options
       }
     );
     await ticket.update({ lastMessage: formatBody(body, ticket.contact) });
+
+
+    await verifyMessage(sentMessage, ticket, ticket.contact, ticket.companyId);
+
     return sentMessage;
   } catch (err) {
     Sentry.captureException(err);
