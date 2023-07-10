@@ -90,14 +90,14 @@ const UpdateTicketService = async ({
 
 
           const ratingTxt = ratingMessage || "";
-          let bodyRatingMessage = `\u200c${ratingTxt}\n\n`;
+          let bodyRatingMessage = `\u200e${ratingTxt}\n\n`;
           bodyRatingMessage +=
             "Digite de 1 à 3 para qualificar nosso atendimento:\n*1* - _Insatisfeito_\n*2* - _Satisfeito_\n*3* - _Muito Satisfeito_\n\n";
 
           if (ticket.channel === "whatsapp") {
             const msg = await SendWhatsAppMessage({ body: bodyRatingMessage, ticket });
 
-            await verifyMessage(msg, ticket, ticket.contact, ticket.companyId);
+            await verifyMessage(msg, ticket, ticket.contact, ticket.companyId); 
           }
 
           if (["facebook", "instagram"].includes(ticket.channel)) {
@@ -122,7 +122,7 @@ const UpdateTicketService = async ({
       }
 
       if (!isNil(complationMessage) && complationMessage !== "" && !ticket.isGroup) {
-        const body = `${complationMessage}`;
+        const body = `\u200e${complationMessage}`;
         if (ticket.channel === "whatsapp") {
           const msg = await SendWhatsAppMessage({ body, ticket });
 

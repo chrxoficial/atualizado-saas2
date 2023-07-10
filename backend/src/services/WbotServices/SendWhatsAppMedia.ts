@@ -131,7 +131,7 @@ const SendWhatsAppMedia = async ({
         // gifPlayback: true
       };
     } else if (typeMessage === "audio") {
-      const typeAudio = media.originalname.includes("audio-record-site");
+      const typeAudio = true
       if (typeAudio) {
         const convert = await processAudio(media.path);
         options = {
