@@ -13,10 +13,27 @@ export const useMultiFileAuthState = async (
 ): Promise<{ state: AuthenticationState; saveCreds: () => Promise<void> }> => {
   const writeData = async (data: any, file: string) => {
     try {
-      await cacheLayer.set(
-        `sessions:${whatsapp.id}:${file}`,
-        JSON.stringify(data, BufferJSON.replacer)
-      );
+
+      if(file === 'creds') {
+        await cacheLayer.set(
+          `sessions:${whatsapp.id}:${file}`,
+          JSON.stringify(data, BufferJSON.replacer),
+          'EX',
+          60 * 60 * 24 * 365
+
+        );
+      }
+
+      if(file !== 'creds') {
+        await cacheLayer.set(
+          `sessions:${whatsapp.id}:${file}`,
+          JSON.stringify(data, BufferJSON.replacer),
+          'EX',
+          60 * 60 * 24 * 2
+        );
+      }
+
+        
     } catch (error) {
       console.log("writeData error", error);
       return null;
